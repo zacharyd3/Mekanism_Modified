@@ -1,0 +1,5 @@
+{
+  "block.mekwasher.bulk_washer": "Bulk Washer",
+  "container.mekwasher.bulk_washer": "Bulk Washer",
+  "description.mekwasher.bulk_washer": "Washes items just like Create's Bulk Washing (a fan blowing through water), but in a single block. Pipe water into the top or right-click it with a water bucket, and power it like any other Mekanism machine. Supports Speed and Energy upgrades."
+}

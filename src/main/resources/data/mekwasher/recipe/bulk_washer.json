@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "C": {
+      "tag": "c:circuits/basic"
+    },
+    "X": {
+      "item": "mekanism:steel_casing"
+    },
+    "F": {
+      "item": "create:encased_fan"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "pattern": [
+    "GCG",
+    "BXF",
+    "GCG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "mekwasher:bulk_washer"
+  }
+}
