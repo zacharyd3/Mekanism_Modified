@@ -1,5 +1,8 @@
 {
   "block.mekwasher.bulk_washer": "Bulk Washer",
   "container.mekwasher.bulk_washer": "Bulk Washer",
-  "description.mekwasher.bulk_washer": "Washes items just like Create's Bulk Washing (a fan blowing through water), but in a single block. Pipe water into the top or right-click it with a water bucket, and power it like any other Mekanism machine. Supports Speed and Energy upgrades."
+  "description.mekwasher.bulk_washer": "Washes items just like Create's Bulk Washing (a fan blowing through water), but in a single block. Pipe water into the top or right-click it with a water bucket, and power it like any other Mekanism machine. Supports Speed and Energy upgrades.",
+  "block.mekwasher.electric_deployer": "Electric Deployer",
+  "container.mekwasher.electric_deployer": "Electric Deployer",
+  "description.mekwasher.electric_deployer": "Does what Create's Deployer does to items on a belt or depot, in a single block: applies the held item (top slot) onto the processed item (bottom slot). Handles deploying, item application, sandpaper polishing and the deploying steps of Sequenced Assembly. Supports Speed and Energy upgrades."
 }

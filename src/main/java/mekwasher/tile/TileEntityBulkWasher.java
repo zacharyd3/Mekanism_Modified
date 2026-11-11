@@ -35,20 +35,18 @@ import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.UpgradeUtils;
 import mekwasher.WasherConfig;
 import mekwasher.registries.MWBlocks;
+import mekwasher.util.MachineUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -286,7 +284,7 @@ public class TileEntityBulkWasher extends TileEntityConfigurableMachine {
         if (stack.isEmpty()) {
             return false;
         }
-        Level level = findAnyLevel();
+        Level level = MachineUtil.findAnyLevel();
         if (level == null) {
             // Can't check recipes yet (e.g. during world load); don't reject anything
             return true;
@@ -294,17 +292,6 @@ public class TileEntityBulkWasher extends TileEntityConfigurableMachine {
         return AllRecipeTypes.SPLASHING.find(new SingleRecipeInput(stack.copyWithCount(1)), level).isPresent();
     }
 
-    @Nullable
-    private static Level findAnyLevel() {
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server != null) {
-            return server.overworld();
-        }
-        if (FMLEnvironment.dist.isClient()) {
-            return mekwasher.client.ClientLevelAccess.getClientLevel();
-        }
-        return null;
-    }
 
     @Override
     public void recalculateUpgrades(Upgrade upgrade) {

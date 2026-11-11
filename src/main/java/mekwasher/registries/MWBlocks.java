@@ -20,6 +20,10 @@ import mekwasher.MekWasher;
 import mekwasher.WasherConfig;
 import mekwasher.block.BlockBulkWasher;
 import mekwasher.tile.TileEntityBulkWasher;
+import mekwasher.tile.TileEntityElectricDeployer;
+import mekwasher.util.DeployingRecipes;
+import mekanism.common.block.prefab.BlockTile.BlockTileModel;
+import mekanism.common.content.blocktype.Machine;
 import net.minecraft.Util;
 
 public final class MWBlocks {
@@ -52,6 +56,23 @@ public final class MWBlocks {
                       .addOutput(TileEntityBulkWasher.OUTPUT_SLOTS)
                       .addFluidFillSlot(0)
                       .addOutput()
+                      .addEnergy()
+                      .build()));
+
+    public static final BlockRegistryObject<BlockTileModel<TileEntityElectricDeployer, Machine<TileEntityElectricDeployer>>, ItemBlockTooltip<BlockTileModel<TileEntityElectricDeployer, Machine<TileEntityElectricDeployer>>>> ELECTRIC_DEPLOYER =
+          BLOCKS.<BlockTileModel<TileEntityElectricDeployer, Machine<TileEntityElectricDeployer>>, ItemBlockTooltip<BlockTileModel<TileEntityElectricDeployer, Machine<TileEntityElectricDeployer>>>>register(
+                "electric_deployer",
+                () -> new BlockTileModel<>(MWBlockTypes.ELECTRIC_DEPLOYER, properties -> properties.mapColor(BlockResourceInfo.STEEL.getMapColor())),
+                // Standard "extra" machine layout: input left, held item (extra) bottom, output right, energy back
+                (block, properties) -> new ItemBlockTooltip<>(block, true, properties
+                      .component(MekanismDataComponents.EJECTOR, AttachedEjector.DEFAULT)
+                      .component(MekanismDataComponents.SIDE_CONFIG, AttachedSideConfig.EXTRA_MACHINE))
+          ).forItemHolder(holder -> holder
+                // Must match the slot order in TileEntityElectricDeployer
+                .addAttachmentOnlyContainers(ContainerType.ITEM, () -> ItemSlotsBuilder.builder()
+                      .addInput(DeployingRecipes::isValidProcessed)
+                      .addInput(DeployingRecipes::isValidHeld)
+                      .addOutput(TileEntityElectricDeployer.OUTPUT_SLOTS)
                       .addEnergy()
                       .build()));
 

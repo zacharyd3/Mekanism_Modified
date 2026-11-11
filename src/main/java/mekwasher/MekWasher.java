@@ -36,6 +36,7 @@ public class MekWasher {
     private void addToCreativeTabs(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(MEKANISM_TAB)) {
             event.accept(MWBlocks.BULK_WASHER);
+            event.accept(MWBlocks.ELECTRIC_DEPLOYER);
         }
     }
 }

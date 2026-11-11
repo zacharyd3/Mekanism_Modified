@@ -14,6 +14,9 @@ public final class WasherConfig {
     public static final ModConfigSpec.IntValue TICKS_PER_OPERATION;
     public static final ModConfigSpec.IntValue WATER_CAPACITY;
     public static final ModConfigSpec.IntValue WATER_PER_OPERATION;
+    public static final ModConfigSpec.LongValue DEPLOYER_ENERGY_USAGE;
+    public static final ModConfigSpec.LongValue DEPLOYER_ENERGY_STORAGE;
+    public static final ModConfigSpec.IntValue DEPLOYER_TICKS_PER_OPERATION;
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -28,6 +31,15 @@ public final class WasherConfig {
               .defineInRange("waterCapacity", 10_000, 1_000, 1_000_000);
         WATER_PER_OPERATION = builder.comment("mB of water used for each item washed. Set to 0 to only require water to be present (no consumption).")
               .defineInRange("waterPerOperation", 50, 0, 1_000_000);
+        builder.pop();
+
+        builder.comment("Electric Deployer settings").push("electric_deployer");
+        DEPLOYER_ENERGY_USAGE = builder.comment("Base energy used per tick while deploying (before Speed/Energy upgrades).")
+              .defineInRange("energyUsage", 50L, 1L, Long.MAX_VALUE);
+        DEPLOYER_ENERGY_STORAGE = builder.comment("Base energy buffer (before Energy upgrades).")
+              .defineInRange("energyStorage", 20_000L, 1L, Long.MAX_VALUE);
+        DEPLOYER_TICKS_PER_OPERATION = builder.comment("Base ticks per deploy (before Speed upgrades).")
+              .defineInRange("ticksPerOperation", 40, 1, 72_000);
         builder.pop();
         SPEC = builder.build();
     }

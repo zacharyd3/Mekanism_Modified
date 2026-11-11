@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "C": {
+      "tag": "c:circuits/basic"
+    },
+    "X": {
+      "item": "mekanism:steel_casing"
+    },
+    "D": {
+      "item": "create:deployer"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "pattern": [
+    "ACA",
+    "GXD",
+    "ACA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "mekwasher:electric_deployer"
+  }
+}

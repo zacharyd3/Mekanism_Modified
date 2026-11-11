@@ -6,6 +6,8 @@ import mekanism.api.AutomationType;
 import mekwasher.MekWasher;
 import mekwasher.registries.MWBlocks;
 import mekwasher.tile.TileEntityBulkWasher;
+import mekwasher.tile.TileEntityElectricDeployer;
+import net.minecraft.world.item.Items;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -78,7 +80,18 @@ public final class ScreenshotDriver {
             });
         } else if (ticksInWorld == 260) {
             shot(mc, "washer_gui.png");
+        } else if (ticksInWorld == 270) {
+            mc.player.closeContainer();
         } else if (ticksInWorld == 280) {
+            mc.getSingleplayerServer().execute(() -> {
+                ServerPlayer player = mc.getSingleplayerServer().getPlayerList().getPlayers().get(0);
+                if (player.serverLevel().getBlockEntity(washerPos(player).east()) instanceof TileEntityElectricDeployer deployer) {
+                    deployer.openGui(player);
+                }
+            });
+        } else if (ticksInWorld == 325) {
+            shot(mc, "deployer_gui.png");
+        } else if (ticksInWorld == 340) {
             mc.stop();
         }
     }
@@ -94,13 +107,16 @@ public final class ScreenshotDriver {
         level.setDayTime(6000);
         level.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, level.getServer());
         BlockPos main = washerPos(player);
-        // A running washer with crushed iron, one half full and idle, one empty
-        setupWasher(level, main, 8000, new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:crushed_raw_iron")), 64));
-        setupWasher(level, main.west(2), 4000, ItemStack.EMPTY);
-        setupWasher(level, main.east(2), 0, ItemStack.EMPTY);
-        level.setBlockAndUpdate(main.below(), Blocks.POLISHED_ANDESITE.defaultBlockState());
-        // Stand in front (north side = front) looking at it
-        player.teleportTo(level, 0.5, -59.2, -2.6, 0F, 28F);
+        // Left to right on screen: two deployers (cogwheels, precision mechanism step), running washer, half-full idle washer
+        setupWasher(level, main, 8000, new ItemStack(item("create:crushed_raw_iron"), 64));
+        setupWasher(level, main.west(), 4000, ItemStack.EMPTY);
+        setupDeployer(level, main.east(), new ItemStack(item("create:shaft"), 64), new ItemStack(Items.OAK_PLANKS, 64));
+        setupDeployer(level, main.east(2), new ItemStack(item("create:golden_sheet"), 64), new ItemStack(item("create:cogwheel"), 64));
+        for (int x = -1; x <= 2; x++) {
+            level.setBlockAndUpdate(main.offset(x, -1, 0), Blocks.POLISHED_ANDESITE.defaultBlockState());
+        }
+        // Stand in front (north side = front) looking at them
+        player.teleportTo(level, 1.0, -59.0, -3.3, 0F, 25F);
     }
 
     private static void setupWasher(ServerLevel level, BlockPos pos, int water, ItemStack input) {
@@ -114,6 +130,20 @@ public final class ScreenshotDriver {
             if (!input.isEmpty()) {
                 washer.getInventorySlots(null).get(0).setStack(input);
             }
+        }
+    }
+
+    private static net.minecraft.world.item.Item item(String id) {
+        return BuiltInRegistries.ITEM.get(ResourceLocation.parse(id));
+    }
+
+    private static void setupDeployer(ServerLevel level, BlockPos pos, ItemStack input, ItemStack held) {
+        level.setBlockAndUpdate(pos, MWBlocks.ELECTRIC_DEPLOYER.defaultState());
+        if (level.getBlockEntity(pos) instanceof TileEntityElectricDeployer deployer) {
+            deployer.applyComponentsFromItemStack(new ItemStack(MWBlocks.ELECTRIC_DEPLOYER.asItem()));
+            deployer.getEnergyContainer().insert(Long.MAX_VALUE, Action.EXECUTE, AutomationType.INTERNAL);
+            deployer.getInventorySlots(null).get(0).setStack(input);
+            deployer.getInventorySlots(null).get(1).setStack(held);
         }
     }
 

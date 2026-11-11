@@ -35,7 +35,14 @@ jobs:
           path: build/libs/*.jar
           if-no-files-found: error
 
-      # Also keep an always-up-to-date "latest" release with the jar attached (main only)
+      # Also keep an always-up-to-date "latest" release with only the newest jar attached (main only).
+      # Recreated each time so the tag points at the new commit and old jars don't pile up.
+      - name: Remove previous latest release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release delete latest --yes --cleanup-tag --repo "$GITHUB_REPOSITORY" || true
+
       - name: Publish latest release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2

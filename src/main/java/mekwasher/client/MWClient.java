@@ -17,11 +17,13 @@ public final class MWClient {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         ClientRegistrationUtil.registerScreen(event, MWContainerTypes.BULK_WASHER, GuiBulkWasher::new);
+        ClientRegistrationUtil.registerScreen(event, MWContainerTypes.ELECTRIC_DEPLOYER, GuiElectricDeployer::new);
     }
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(MWTileEntityTypes.BULK_WASHER.get(), RenderBulkWasher::new);
+        event.registerBlockEntityRenderer(MWTileEntityTypes.ELECTRIC_DEPLOYER.get(), RenderElectricDeployer::new);
     }
 
     @SubscribeEvent

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "mekwasher:bulk_washer"
+    "mekwasher:bulk_washer",
+    "mekwasher:electric_deployer"
   ]
 }
