@@ -52,6 +52,13 @@ The config is a server config at `world/serverconfig/mekwasher-server.toml`:
 | `waterCapacity` | 10000 | water tank size in mB |
 | `waterPerOperation` | 50 | mB used per item washed (0 means water is still required but not used up) |
 
+## Download
+
+No need to build it yourself:
+
+* **Latest jar:** the [`latest` release](../../releases/tag/latest) is rebuilt automatically on every push to `main`.
+* **Any build:** open the [Actions tab](../../actions/workflows/build.yml), click a run, and download `mekwasher-jar` under *Artifacts*.
+
 ## Building
 
 ```bash
